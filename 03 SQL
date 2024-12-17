@@ -48,7 +48,17 @@ SELECT * FROM Salaries;
 -- ----------------------------------------------
 
 
+select max(max_salary)-min(max_salary) as diff
+from
+(
 
+	select department, max(salary) as max_salary from salaries group by department 
+	order by max_salary DESC limit 2
+) as top_salary
+
+-- ----------------------------------------------
+-- My solution
+-- ----------------------------------------------
 
 
 SELECT
@@ -57,4 +67,24 @@ SELECT
 FROM Salaries;
 	
 -- Solving the same problem using CTE and Window Function
+
+WITH DepartmentMaxSalaries AS (
+    SELECT 
+        department,
+        MAX(salary) AS max_salary
+    FROM employees
+    GROUP BY department
+),
+TopTwoDepartments AS (
+    SELECT 
+        department,
+        max_salary
+    FROM DepartmentMaxSalaries
+    ORDER BY max_salary DESC
+    LIMIT 2
+)
+SELECT 
+    ABS(MAX(max_salary) - MIN(max_salary)) AS salary_difference
+FROM TopTwoDepartments;
+
 
