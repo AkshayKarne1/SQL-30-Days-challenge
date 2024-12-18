@@ -179,5 +179,14 @@ ORDER BY
 	EXTRACT(MONTH FROM MIN(order_date))
 ;
 
+-- ----------------------------------------------
+-- My solution
+-- ----------------------------------------------
 
+
+select  sum(quantity * price_per_unit) as amount_total,
+extract( month from order_date) as month_no from sales
+where extract( YEAR FROM order_date) = '2023'
+group by 2
+order by 2
 
