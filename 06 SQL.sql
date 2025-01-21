@@ -43,10 +43,19 @@ viewership for laptops as laptop_views and the total viewership for mobile devic
 
 
 
-SELECT 
-    SUM(CASE WHEN device_type = 'laptop' THEN viewership_count ELSE 0 END) AS laptop_views,
-    SUM(CASE WHEN device_type IN ('tablet', 'phone') THEN viewership_count ELSE 0 END) AS mobile_views
-FROM viewership;
+select 
+  sum(laptop_reviews) as laptop_reviews,
+  sum(mobile_views) as mobile_views
+from
+(
+  SELECT 
+   case when device_type = 'laptop' then 1 end as laptop_reviews,
+    case WHEN device_type = 'tablet' then 1
+          when device_type = 'phone' then 1 
+          else 0 
+          end as mobile_views
+  FROM viewership)x1
+  
 
 
 
