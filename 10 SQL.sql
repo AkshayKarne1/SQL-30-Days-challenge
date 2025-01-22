@@ -37,13 +37,16 @@ Output:
 -- My Solution
 -- -------------------------------------------------------------
 
-SELECT 
-	TO_CHAR(trans_date, 'YYYY-MM') as month,
-	country,
-	COUNT(1) as trans_count,
-	SUM(CASE WHEN state='approved' THEN 1 ELSE 0 END) as approved_count,
-	SUM(amount) as trans_total_amount,
-	SUM(CASE WHEN state= 'approved' THEN amount ELSE 0 END) as approved_total_amount
-FROM transactions
-GROUP BY 1, 2;
+-- month, country	count of transaction of approved, 	amount Approved transaction 	amunt
+select 
+	date_format(trans_date, '%Y-%m') as month_num ,
+    country,
+    count(1) as transaction_count,
+    sum(case when state = 'approved' then 1 else 0 end) as Approved_count,
+    sum(case when state ='approved' then amount else 0 end ) as Approved_amount,
+    sum(amount) as total_amount
+
+from transactions_2
+group by 1,2
+order by 1,2 
 
